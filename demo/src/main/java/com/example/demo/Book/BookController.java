@@ -37,5 +37,21 @@ public class BookController {
         bookRepository.deleteById(id);
     }
 
+    @PutMapping(value="/edit/{id}")
+    public void edit(@RequestBody Book book,@PathVariable String id){
+//        bookRepository.findById(id).map(book1->{
+//            book1.setCharactorsList(book.getName());
+//            book1.setPrice(book.getPrice());
+//            book1.setPublishdate(book.getPublishdate());
+//            book1.setStatus(book.isStatus());
+//            return bookRepository.save(book1);
+//        }).orElseGet(()->{
+//            book.set_id(id);
+//            return bookRepository.save(book);
+//            }
+//
+//        );
+        bookRepository.save(book);
+    }
 
 }

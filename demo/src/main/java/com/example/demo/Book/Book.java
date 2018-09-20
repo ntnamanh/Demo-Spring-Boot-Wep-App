@@ -31,6 +31,30 @@ public class Book {
         this.status = status;
     }
 
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setPublishdate(Date publishdate) {
+        this.publishdate = publishdate;
+    }
+
+    public void setCharactorsList(String charactorsList) {
+        this.charactorsList = charactorsList;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
     public int getPrice() {
         return price;
     }
