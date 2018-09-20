@@ -1,5 +1,4 @@
-package com.example.demo;
-
+package com.example.demo.Book;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -18,16 +17,18 @@ public class Book {
     private int price;
     private Date publishdate;
     private List<Charactors> charactorsList;
+    private boolean status;
 
     public Book(){
         this.charactorsList = new ArrayList<>();
     }
 
-    public Book( String name, Date publishdate,int price , List<Charactors> charactorsList) {
+    public Book( String name, Date publishdate,int price , List<Charactors> charactorsList, boolean status) {
         this.Name = name;
         this.publishdate = publishdate;
         this.charactorsList = charactorsList;
         this.price = price;
+        this.status = status;
     }
 
     public int getPrice() {
@@ -49,4 +50,6 @@ public class Book {
     public List<Charactors> getCharactorsList() {
         return charactorsList;
     }
+
+    public boolean isStatus() { return status; }
 }

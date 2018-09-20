@@ -1,6 +1,5 @@
-package com.example.demo;
+package com.example.demo.Book;
 
-import com.example.demo.BookRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -9,10 +8,10 @@ import java.util.Arrays;
 import java.util.List;
 
 @Component
-public class DbSeeder implements CommandLineRunner {
+public class BookDbSeeder implements CommandLineRunner {
 
     private BookRepository bookRepository;
-    public DbSeeder(BookRepository bookRepository){
+    public BookDbSeeder(BookRepository bookRepository){
         this.bookRepository = bookRepository;
     }
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -24,8 +23,8 @@ public class DbSeeder implements CommandLineRunner {
         Charactors charact3 = new Charactors("C3","Nhat");
         List<Charactors> charactorsList = Arrays.asList(charact1,charact2);
         List<Charactors> charactorsList1 = Arrays.asList(charact1,charact3);
-        Book newbook1 = new Book("Little Bird",simpleDateFormat.parse("03/07/1994"),200,charactorsList);
-        Book newbook2 = new Book("Bird and family",simpleDateFormat.parse("20/09/2018"),150,charactorsList1);
+        Book newbook1 = new Book("Little Bird",simpleDateFormat.parse("03/07/1994"),200,charactorsList,true);
+        Book newbook2 = new Book("Bird and family",simpleDateFormat.parse("20/09/2018"),150,charactorsList1,true);
         List<Book> bookList = Arrays.asList(newbook1,newbook2);
         this.bookRepository.deleteAll();
 
