@@ -18,13 +18,9 @@ public class BookDbSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Charactors charact1 = new Charactors("C1","Bird");
-        Charactors charact2 = new Charactors("C2","Tu");
-        Charactors charact3 = new Charactors("C3","Nhat");
-        List<Charactors> charactorsList = Arrays.asList(charact1,charact2);
-        List<Charactors> charactorsList1 = Arrays.asList(charact1,charact3);
-        Book newbook1 = new Book("Little Bird",simpleDateFormat.parse("03/07/1994"),200,charactorsList,true);
-        Book newbook2 = new Book("Bird and family",simpleDateFormat.parse("20/09/2018"),150,charactorsList1,true);
+
+        Book newbook1 = new Book("Little Bird",simpleDateFormat.parse("03/07/1994"),200,"Bird,Tu,Nhat",true);
+        Book newbook2 = new Book("Bird and family",simpleDateFormat.parse("20/09/2018"),150,"Binh,Nhat,Minh",true);
         List<Book> bookList = Arrays.asList(newbook1,newbook2);
         this.bookRepository.deleteAll();
 

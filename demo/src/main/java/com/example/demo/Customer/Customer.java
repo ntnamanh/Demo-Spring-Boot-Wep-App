@@ -4,11 +4,11 @@ package com.example.demo.Customer;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "Customer")
+@Document(collection = "customer")
 public class Customer {
 
     @Id
-    private String Id;
+    private String _id;
     private String name;
     private String address;
     private String phone;
@@ -22,7 +22,7 @@ public class Customer {
     }
 
     public String getId() {
-        return Id;
+        return _id;
     }
 
     public String getName() {

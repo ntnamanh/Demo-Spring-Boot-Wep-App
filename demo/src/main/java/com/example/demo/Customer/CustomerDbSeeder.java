@@ -22,11 +22,8 @@ public class CustomerDbSeeder implements CommandLineRunner {
         Customer customer3 = new Customer("Nhat","456 Pham Ngu Lao","09797090994","PhamNhat@gmail.com");
         List<Customer> newlist = Arrays.asList(customer1,customer2,customer3);
         customerRepository.deleteAll();
-
         for (Customer customer: newlist){
             customerRepository.save(customer);
         }
-
-
     }
 }

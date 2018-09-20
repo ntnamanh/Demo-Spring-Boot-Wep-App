@@ -7,24 +7,33 @@ import java.util.Calendar;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/Rent")
+@RequestMapping(value = "/rents")
 public class RentController {
     private RentRepository rentRepository;
     public RentController(RentRepository rentRepository){
         this.rentRepository = rentRepository;
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping()
     public List<Rent> getAll(){
-        List<Rent> rentList = rentRepository.findAll();
-        return  rentList;
+        return  rentRepository.findAll();
     }
 
-    @GetMapping(value = "/add/{bookID}&{customerID}")
-    public void create_rent(@PathVariable String bookID,@PathVariable String customerID ){
-        Calendar calendar = Calendar.getInstance();
-        Rent rent = new Rent(customerID,bookID,calendar.getTime(),null,false);
-        rentRepository.save(rent);
+    @GetMapping(value = "/{id}")
+    public Rent find_rent_by_id(@PathVariable String id){
+        return rentRepository.findById(id).orElseThrow(()-> new RentNotFoundException("Can not find the Rent with this id"));
     }
+
+    @PostMapping(value = "/post/{cus_id}&{b_id}")
+    public void create_rent(@PathVariable String cus_id,@PathVariable String b_id ){
+        Calendar calendar = Calendar.getInstance();
+        rentRepository.save(new Rent(cus_id,b_id,calendar.getTime(),null,false));
+    }
+
+    @DeleteMapping(value="/remove/{id}")
+    public void delete_rent(@PathVariable String id){
+        rentRepository.deleteById(id);
+    }
+
 
 }

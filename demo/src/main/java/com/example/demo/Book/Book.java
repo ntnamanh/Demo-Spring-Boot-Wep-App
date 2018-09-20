@@ -8,22 +8,22 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@Document(collection ="Book")
+@Document(collection ="book")
 public class Book {
     @Id
-    private String ID;
+    private String _id;
     private String Name;
     @Indexed
     private int price;
     private Date publishdate;
-    private List<Charactors> charactorsList;
+    private String charactorsList;
     private boolean status;
 
     public Book(){
-        this.charactorsList = new ArrayList<>();
+
     }
 
-    public Book( String name, Date publishdate,int price , List<Charactors> charactorsList, boolean status) {
+    public Book( String name, Date publishdate,int price , String charactorsList, boolean status) {
         this.Name = name;
         this.publishdate = publishdate;
         this.charactorsList = charactorsList;
@@ -36,7 +36,7 @@ public class Book {
     }
 
     public String getID() {
-        return ID;
+        return _id;
     }
 
     public String getName() {
@@ -47,7 +47,7 @@ public class Book {
         return publishdate;
     }
 
-    public List<Charactors> getCharactorsList() {
+    public String getCharactorsList() {
         return charactorsList;
     }
 

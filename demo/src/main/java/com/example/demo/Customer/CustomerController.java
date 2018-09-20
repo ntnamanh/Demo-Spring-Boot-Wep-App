@@ -1,14 +1,15 @@
 package com.example.demo.Customer;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
 
+import static org.springframework.http.HttpStatus.NOT_FOUND;
+
 @RestController
-@RequestMapping(value = "/Customer")
+@RequestMapping(value = "/customers")
 public class CustomerController {
 
     private CustomerRepository customerRepository;
@@ -16,9 +17,22 @@ public class CustomerController {
         this.customerRepository = customerRepository;
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping()
     public List<Customer> getAllCustomer(){
-        List<Customer> newlist = customerRepository.findAll();
-        return newlist;
+        return customerRepository.findAll();
     }
+
+    @GetMapping(value = "/{id}")
+    public Customer get_customer_id(@PathVariable String id){
+        return customerRepository.findById(id).orElseThrow(()->new CustomerNotFoundException("Can find customer with id"));
+    }
+    @PostMapping(value ="/post/name&address&phone&email")
+    public void add_new_customer(@PathVariable String name,@PathVariable String address,@PathVariable String phone,@PathVariable String email){
+        customerRepository.save(new Customer(name,address,phone,email));
+    }
+    @DeleteMapping()
+    public void delete_customer(@PathVariable String id){
+        customerRepository.deleteById(id);
+    }
+
 }

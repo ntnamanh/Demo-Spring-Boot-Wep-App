@@ -9,7 +9,7 @@ import java.util.Date;
 @Document(collection = "Rent")
 public class Rent {
     @Id
-    private String Id;
+    private String _id;
     private String customerID;
     private String bookID;
     private Date start_date;
@@ -25,7 +25,7 @@ public class Rent {
     }
 
     public String getId() {
-        return Id;
+        return _id;
     }
 
     public String getCustomerID() {
