@@ -21,6 +21,26 @@ public class Customer {
         this.email = email;
     }
 
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getId() {
         return _id;
     }

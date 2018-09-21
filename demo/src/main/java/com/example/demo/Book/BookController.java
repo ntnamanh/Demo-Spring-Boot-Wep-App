@@ -2,6 +2,9 @@ package com.example.demo.Book;
 
 
 import com.example.demo.Customer.CustomerNotFoundException;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -13,22 +16,24 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/books")
 public class BookController {
+    @Autowired
     private BookRepository bookRepository;
     public BookController(BookRepository bookRepository){
         this.bookRepository = bookRepository;
     }
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
+
     @GetMapping()
     public List<Book> getAllBook(){
         List<Book> allbook = this.bookRepository.findAll();
         return allbook;
     }
 
-    @GetMapping(value = "/{id}")
+    @GetMapping("/{id}")
     public Book get_book_by_id(@PathVariable String id){
-        return bookRepository.findById(id).orElseThrow(()->new BookNotFoundException("Can find customer with id"));
+        return bookRepository.findById(id).orElseThrow(()->new BookNotFoundException("Can find Book with id"));
     }
-    @PostMapping(value="/{name}&{publish}&{price}&{char_name}")
+    @PostMapping("/book")
     public void insert_book(@PathVariable String name,@PathVariable String publish,@PathVariable String price,@PathVariable String char_name) throws ParseException {
         bookRepository.save(new Book(name,simpleDateFormat.parse(publish),Integer.parseInt(price),char_name,true));
     }
@@ -37,21 +42,19 @@ public class BookController {
         bookRepository.deleteById(id);
     }
 
-    @PutMapping(value="/edit/{id}")
-    public void edit(@RequestBody Book book,@PathVariable String id){
-//        bookRepository.findById(id).map(book1->{
-//            book1.setCharactorsList(book.getName());
-//            book1.setPrice(book.getPrice());
-//            book1.setPublishdate(book.getPublishdate());
-//            book1.setStatus(book.isStatus());
-//            return bookRepository.save(book1);
-//        }).orElseGet(()->{
-//            book.set_id(id);
-//            return bookRepository.save(book);
-//            }
-//
-//        );
-        bookRepository.save(book);
+    @PutMapping("/{id}")
+    public void edit(@RequestBody Book newBook,@PathVariable String id){
+        bookRepository.findById(id).map(book->{
+            book.setName(newBook.getName());
+            book.setCharactorsList(newBook.getCharactorsList());
+            book.setPrice(newBook.getPrice());
+            book.setPublishdate(newBook.getPublishdate());
+            book.setStatus(newBook.isStatus());
+            Book updatebook = bookRepository.save(book);
+        return ResponseEntity.ok().body(updatebook);
+        }).orElseThrow(()-> new BookNotFoundException("Can find Book with the ID"))
+            ;
+   //     bookRepository.save(newBook);
     }
 
 }

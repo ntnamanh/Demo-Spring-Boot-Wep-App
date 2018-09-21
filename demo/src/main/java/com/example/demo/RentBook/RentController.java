@@ -1,6 +1,8 @@
 package com.example.demo.RentBook;
 
 
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Calendar;
@@ -9,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/rents")
 public class RentController {
+    @Autowired
     private RentRepository rentRepository;
     public RentController(RentRepository rentRepository){
         this.rentRepository = rentRepository;
@@ -24,13 +27,12 @@ public class RentController {
         return rentRepository.findById(id).orElseThrow(()-> new RentNotFoundException("Can not find the Rent with this id"));
     }
 
-    @PostMapping(value = "/post/{cus_id}&{b_id}")
-    public void create_rent(@PathVariable String cus_id,@PathVariable String b_id ){
-        Calendar calendar = Calendar.getInstance();
-        rentRepository.save(new Rent(cus_id,b_id,calendar.getTime(),null,false));
+    @PostMapping(value = "/{rent}")
+    public void create_rent(@RequestBody Rent rent ){
+        rentRepository.save(rent);
     }
 
-    @DeleteMapping(value="/remove/{id}")
+    @DeleteMapping(value="/{id}")
     public void delete_rent(@PathVariable String id){
         rentRepository.deleteById(id);
     }

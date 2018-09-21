@@ -1,6 +1,7 @@
 package com.example.demo.Customer;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Component
 public class CustomerDbSeeder implements CommandLineRunner {
+    @Autowired
     private CustomerRepository customerRepository;
     public CustomerDbSeeder(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
@@ -27,3 +29,4 @@ public class CustomerDbSeeder implements CommandLineRunner {
         }
     }
 }
+

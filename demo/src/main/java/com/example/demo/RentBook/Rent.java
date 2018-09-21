@@ -16,6 +16,30 @@ public class Rent {
     private Date end_date;
     private boolean _return;
 
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public void setCustomerID(String customerID) {
+        this.customerID = customerID;
+    }
+
+    public void setBookID(String bookID) {
+        this.bookID = bookID;
+    }
+
+    public void setStart_date(Date start_date) {
+        this.start_date = start_date;
+    }
+
+    public void setEnd_date(Date end_date) {
+        this.end_date = end_date;
+    }
+
+    public void set_return(boolean _return) {
+        this._return = _return;
+    }
+
     public Rent(String customerID, String bookID, Date start_date, Date end_date, boolean _return) {
         this.customerID = customerID;
         this.bookID = bookID;
