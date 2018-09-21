@@ -2,10 +2,14 @@ package com.example.demo.Book;
 
 
 import com.example.demo.Customer.CustomerNotFoundException;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 
 import java.text.ParseException;
@@ -13,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-@RestController
+@Controller
 @RequestMapping(value = "/books")
 public class BookController {
     @Autowired
@@ -24,9 +28,10 @@ public class BookController {
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     @GetMapping()
-    public List<Book> getAllBook(){
+    public String getAllBook(Model model){
         List<Book> allbook = this.bookRepository.findAll();
-        return allbook;
+
+        return new ModelAndView("addStudent", "command", new Student());
     }
 
     @GetMapping("/{id}")
