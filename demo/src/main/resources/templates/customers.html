@@ -31,11 +31,11 @@
                     Customer
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" th:href="@{/books}">All Customer</a>
+                    <a class="dropdown-item" th:href="@{/customers}">All Customer</a>
                     <div class="dropdown-divider"></div>
                     <form action="#"  th:method="get">
-                        <a class="dropdown-item" th:href="@{/books/under/100}"  >Not Returned</a>
-                        <a class="dropdown-item" th:href="@{/books/under/200}"  >Return</a>
+                        <a class="dropdown-item" th:href="@{/customers/return/is_renting}"  > Renting</a>
+                        <a class="dropdown-item" th:href="@{/customers/return/not_renting}"  > Not Renting</a>
                     </form>
                     <div class="dropdown-divider"></div>
                     <form action="#"  th:method="get">

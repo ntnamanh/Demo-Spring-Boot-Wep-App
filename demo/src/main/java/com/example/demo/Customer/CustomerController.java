@@ -1,5 +1,6 @@
 package com.example.demo.Customer;
 
+import com.example.demo.RentBook.RentNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,20 @@ public class CustomerController {
             model.addObject("customer_datas",this.customerRepository.findAllByNameLike(name));
         return model;
     }
+    @GetMapping(value = "/return/{value}")
+    public ModelAndView get_customer_by_status(ModelAndView model,@PathVariable String value){
+        model.setViewName("customers");
+        if(value.equals("is_renting"))
+            model.addObject("customer_datas",this.customerRepository.findAllByNumberofrentIsGreaterThan(0));
+        else if(value.equals("not_renting"))
+            model.addObject("customer_datas",this.customerRepository.findAllByNumberofrentIs(0));
+        else
+            model.setViewName("errorhandler");
+        return model;
+    }
+
+
+
     @PostMapping(value ="/{customer}")
     public void add_new_customer(@RequestBody Customer newcustomer){
         customerRepository.save(newcustomer);
