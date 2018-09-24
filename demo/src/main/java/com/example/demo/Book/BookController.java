@@ -1,23 +1,18 @@
 package com.example.demo.Book;
 
-
-import com.example.demo.Customer.CustomerNotFoundException;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import javax.rmi.CORBA.Util;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.List;
 
 
-@Controller
+
+@RestController
 @RequestMapping(value = "/books")
 public class BookController {
     @Autowired
@@ -28,16 +23,40 @@ public class BookController {
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     @GetMapping()
-    public String getAllBook(Model model){
-        List<Book> allbook = this.bookRepository.findAll();
-
-        return new ModelAndView("addStudent", "command", new Student());
+    public ModelAndView getAllBook(ModelAndView model){
+        model.setViewName("books");
+        model.addObject("book_datas",this.bookRepository.findAll());
+        return model;
     }
 
-    @GetMapping("/{id}")
-    public Book get_book_by_id(@PathVariable String id){
-        return bookRepository.findById(id).orElseThrow(()->new BookNotFoundException("Can find Book with id"));
+    @GetMapping("/search")
+    public ModelAndView get_book_by_id(@RequestParam(value = "search", required = true) String search, ModelAndView model){
+        model.setViewName("books");
+        if(search.isEmpty() || search.trim().equals(""))
+            model.addObject("book_datas",this.bookRepository.findAll());
+        else
+            model.addObject("book_datas", this.bookRepository.findAllByNameLike(search));
+        return model;
     }
+    @GetMapping("/under/{price}")
+    public ModelAndView under100(ModelAndView model,@PathVariable String price){
+        model.setViewName("books");
+        model.addObject("book_datas",this.bookRepository.findAllByPriceLessThanOrderByPriceAsc(Integer.parseInt(price)));
+        return model;
+    }
+//    @GetMapping("/Under200")
+//    public ModelAndView under200(ModelAndView model){
+//        model.setViewName("books");
+//        model.addObject("book_datas",this.bookRepository.findAllByPriceLessThan(200));
+//        return model;
+//    }
+//    @GetMapping("/Under300")
+//    public ModelAndView under300(ModelAndView model){
+//        model.setViewName("books");
+//        model.addObject("book_datas",this.bookRepository.findAllByPriceLessThan(300));
+//        return model;
+//    }
+
     @PostMapping("/book")
     public void insert_book(@PathVariable String name,@PathVariable String publish,@PathVariable String price,@PathVariable String char_name) throws ParseException {
         bookRepository.save(new Book(name,simpleDateFormat.parse(publish),Integer.parseInt(price),char_name,true));
@@ -59,7 +78,6 @@ public class BookController {
         return ResponseEntity.ok().body(updatebook);
         }).orElseThrow(()-> new BookNotFoundException("Can find Book with the ID"))
             ;
-   //     bookRepository.save(newBook);
     }
 
 }

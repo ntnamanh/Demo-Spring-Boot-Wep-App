@@ -10,10 +10,10 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/static/css/style.css" th:href="@{/static/css/style.cs}"/>
     <title>Document</title>
 </head>
 <body>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -24,74 +24,68 @@
             <li class="nav-item ">
                 <a class="nav-link"  th:href="@{/welcome}">Home <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item dropdown" >
-                <a class="nav-link dropdown-toggle"th:href="@{/books}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Books
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" th:href="@{/books}">All Books</a>
-                    <div class="dropdown-divider"></div>
-                    <form action="#"  th:method="get">
-                        <a class="dropdown-item" th:href="@{/books/under/100}"  >Under 100$</a>
-                        <a class="dropdown-item" th:href="@{/books/under/200}"  >Under 200$</a>
-                        <a class="dropdown-item" th:href="@{/books/under/300}"  >Under 300$</a>
-                    </form>
-                    <div class="dropdown-divider"></div>
-                    <form action="#"  th:method="get">
-                        <a class="dropdown-item" th:href="@{/books/under/100}"  >Add New Book</a>
-                    </form>
-
-                </div>
+            <li class="nav-item">
+                <a class="nav-link " th:href="@{/books}">Books</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/customers}">Customers</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/rents}">Rents</a>
+            <li class="nav-item dropdown" >
+                <a class="nav-link dropdown-toggle"th:href="@{/rents}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Rents
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" th:href="@{/rents}">All Rents</a>
+                    <div class="dropdown-divider"></div>
+                    <form action="#"  th:method="get">
+                        <a class="dropdown-item" th:href="@{/rents/return/returned}">Return</a>
+                        <a class="dropdown-item" th:href="@{/rents/return/not_returned}">Not Return</a>
+                    </form>
+
+                </div>
             </li>
-
         </ul>
-
-        <form class="form-inline my-2 my-lg-0" action="#" th:action="@{/books/search}" th:method="get">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search By Name" name="search" aria-label="Search" th:value="${search}">
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
 </nav>
 
-    <div class="container" style="padding-top: 200px">
 
+
+
+    <div class="container"  style="padding-top: 200px">
         <table class="table table-dark">
             <thead class="thead-dark">
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Price</th>
+                <th scope="col">CustomerID</th>
+                <th scope="col">BookID</th>
+                <!--<th scope="col">Start Date</th>-->
+                <!--<th scope="col">End Date</th>-->
                 <th scope="col">Status</th>
                 <th scope="col">Update</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="book_data : ${book_datas}" >
-                <td th:utext="${book_datas.indexOf(book_data)+1}"></td>
-                <td th:utext="${book_data.getID()}"></td>
-                <td th:utext="${book_data.getName()}"></td>
-                <td th:utext="${book_data.getPrice()}+'$'"></td>
-                <td th:utext="((${book_data.isStatus()})? 'Available': 'Unavailable')"></td>
+            <tr th:each="rent_data : ${rent_datas}">
+                <td th:utext="${rent_datas.indexOf(rent_data)+1}"></td>
+                <td th:utext="${rent_data.getId()}"></td>
+                <td th:utext="${rent_data.getBookID()}"></td>
+                <td th:utext="${rent_data.getCustomerID()}"></td>
+                <!--<td th:utext="${rent_data.start_date}"></td>-->
+                <!--<td th:utext="${rent_data.end_date}"></td>-->
+                <td th:utext="((${rent_data.is_return()})?'Returned':'Not returned')"></td>
                 <td>
-                    <button type="button" class="btn btn-outline-secondary">Edit</button>
-                    <button type="button" class="btn btn-outline-secondary" th:disabled="((${book_data.isStatus()})? false:true)" >Delete</button>
+                    <button type="button" class="btn btn-outline-secondary" th:disabled="((${rent_data.is_return()})?true:false)">Return Update</button>
+                    <button type="button" class="btn btn-outline-secondary" th:disabled="((${rent_data.is_return()})?false:true)">Delete</button>
                 </td>
             </tr>
-
             </tbody>
         </table>
     </div>
 
 </body>
-
-<script type="text/javascript" >
-
-</script>
 </html>

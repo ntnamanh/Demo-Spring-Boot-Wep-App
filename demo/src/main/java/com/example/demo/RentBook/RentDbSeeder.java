@@ -13,6 +13,8 @@ public class RentDbSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+        Rent rent1 = new Rent("sadadsa","adadsadsa",true);
         this.rentRepository.deleteAll();
+        rentRepository.save(rent1);
     }
 }

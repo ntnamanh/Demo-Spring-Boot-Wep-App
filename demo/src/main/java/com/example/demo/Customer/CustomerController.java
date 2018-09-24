@@ -3,8 +3,10 @@ package com.example.demo.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 
+import javax.jws.WebParam;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.NOT_FOUND;
@@ -19,13 +21,20 @@ public class CustomerController {
     }
 
     @GetMapping()
-    public List<Customer> getAllCustomer(){
-        return customerRepository.findAll();
+    public ModelAndView getAllCustomer(ModelAndView model){
+        model.setViewName("customers");
+        model.addObject("customer_datas", this.customerRepository.findAll());
+        return model;
     }
 
-    @GetMapping(value = "/{id}")
-    public Customer get_customer_id(@PathVariable String id){
-        return customerRepository.findById(id).orElseThrow(()->new CustomerNotFoundException("Can find customer with id"));
+    @GetMapping(value = "/search")
+    public ModelAndView get_customer_id(@RequestParam(value = "search", required = true) String name, ModelAndView model){
+        model.setViewName("customers");
+        if(name.isEmpty()||name.trim().equals(""))
+            model.addObject("customer_datas", this.customerRepository.findAll());
+        else
+            model.addObject("customer_datas",this.customerRepository.findAllByNameLike(name));
+        return model;
     }
     @PostMapping(value ="/{customer}")
     public void add_new_customer(@RequestBody Customer newcustomer){

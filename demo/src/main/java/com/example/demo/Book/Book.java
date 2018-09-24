@@ -4,15 +4,15 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 
 @Document(collection ="book")
 public class Book {
+
     @Id
-    private String _id;
-    private String Name;
+    private String id;
+    private String name;
     @Indexed
     private int price;
     private Date publishdate;
@@ -24,19 +24,19 @@ public class Book {
     }
 
     public Book( String name, Date publishdate,int price , String charactorsList, boolean status) {
-        this.Name = name;
+        this.name = name;
         this.publishdate = publishdate;
         this.charactorsList = charactorsList;
         this.price = price;
         this.status = status;
     }
 
-    public void set_id(String _id) {
-        this._id = _id;
+    public void set_id(String id) {
+        this.id = id;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public void setPrice(int price) {
@@ -60,11 +60,11 @@ public class Book {
     }
 
     public String getID() {
-        return _id;
+        return id;
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public Date getPublishdate() {
