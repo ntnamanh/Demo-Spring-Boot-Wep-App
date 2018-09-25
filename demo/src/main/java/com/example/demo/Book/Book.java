@@ -4,31 +4,27 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
 
 
 @Document(collection ="book")
 public class Book {
-
     @Id
     private String id;
     private String name;
     @Indexed
     private int price;
-    private Date publishdate;
-    private String charactorsList;
-    private boolean status;
+    private String category;
+    private String book_status;
 
     public Book(){
 
     }
 
-    public Book( String name, Date publishdate,int price , String charactorsList, boolean status) {
+    public Book( String name,int price , String category, String book_status) {
         this.name = name;
-        this.publishdate = publishdate;
-        this.charactorsList = charactorsList;
+        this.category = category;
         this.price = price;
-        this.status = status;
+        this.book_status = book_status;
     }
 
     public void set_id(String id) {
@@ -43,16 +39,12 @@ public class Book {
         this.price = price;
     }
 
-    public void setPublishdate(Date publishdate) {
-        this.publishdate = publishdate;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public void setCharactorsList(String charactorsList) {
-        this.charactorsList = charactorsList;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setStatus(String book_status) {
+        this.book_status = book_status;
     }
 
     public int getPrice() {
@@ -67,13 +59,9 @@ public class Book {
         return name;
     }
 
-    public Date getPublishdate() {
-        return publishdate;
+    public String getCategory() {
+        return category;
     }
 
-    public String getCharactorsList() {
-        return charactorsList;
-    }
-
-    public boolean isStatus() { return status; }
+    public String getStatus() { return book_status; }
 }

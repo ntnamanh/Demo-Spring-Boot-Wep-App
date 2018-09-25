@@ -14,13 +14,12 @@ public class BookDbSeeder implements CommandLineRunner {
     public BookDbSeeder(BookRepository bookRepository){
         this.bookRepository = bookRepository;
     }
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM/dd/yyyy");
-
     @Override
     public void run(String... args) throws Exception {
-        Book newbook1 = new Book("Little Bird",simpleDateFormat.parse("03/07/1994"),200,"Bird,Tu,Nhat",true);
-        Book newbook2 = new Book("Bird and family",simpleDateFormat.parse("20/09/2018"),150,"Binh,Nhat,Minh",true);
-        Book newbook3 = new Book("Bird and his happy days",simpleDateFormat.parse("11/11/2015"),120,"Bird,Thien,Nhat",false);
+        Book newbook1 = new Book("Little Bird",200,"Horror","Available");
+        Book newbook2 = new Book("Bird and family",150,"Love","Available");
+        Book newbook3 = new Book("Bird and his happy days",120,"Horror","Unvailable");
+
         List<Book> bookList = Arrays.asList(newbook1,newbook2,newbook3);
         this.bookRepository.deleteAll();
         for (Book book: bookList) {
