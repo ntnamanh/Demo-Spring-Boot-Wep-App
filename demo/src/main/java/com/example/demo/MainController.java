@@ -12,7 +12,6 @@ public class MainController {
 
     @GetMapping
     public String welcome(Model model){
-        model.addAttribute("msg","ahihi do cho");
         return "welcome";
     }
 }

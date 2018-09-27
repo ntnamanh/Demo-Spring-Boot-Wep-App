@@ -7,5 +7,8 @@ import java.util.List;
 
 @Repository
 public interface RentRepository extends MongoRepository<Rent,String> {
-    List<Rent> findAllBy_returnIs(Boolean check);
+    List<Rent> findAllByReturnStatusIs(Boolean check);
+    List<Rent> findAllByOrderByStartDateDesc();
+    List<Rent> findAllByCustomerIdEqualsAndReturnStatusIs(String customerId,boolean rentStatus);
+
 }

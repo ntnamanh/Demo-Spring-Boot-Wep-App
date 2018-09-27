@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header :: head">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link"  th:href="@{/welcome}">Home <span class="sr-only">Home</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link"  th:href="@{/books}">Books <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/customers}">Customers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/rents}">Rents</a>
+            </li>
+
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0" action="#" th:action="@{/books/search}" th:method="get">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search By Name" name="search" aria-label="Search" >
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+
+
+<!-- Model Edit -->
+
+
+            <form th:action="@{/books}"  name="editBook"  th:method="put"  >
+                <div class="modal-body"  th:object="${bookD.get()}">
+                    <div class="form-group">
+                        <label  class="col-form-label">Book Id:</label>
+                        <input type="text" class="form-control" disabled   th:value="${bookD.get().id}"  >
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-form-label">Book Name:</label>
+                        <input type="text" class="  form-control"  name="name" th:value="${bookD.get().name}"  >
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-form-label">Price per day:</label>
+                        <input type="text" class="form-control" name="price" th:value="${bookD.get().price}"  >
+                    </div>
+                    <div class="form-group">
+                        <label  class="col-form-label">Category:</label>
+
+                        <input type="text" class="form-control"  name="category" th:value="${bookD.get().category}"  >
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" th:checked="(${bookD.get().bookStatus.equals('Available')}? true:false)" type="radio" name="bookStatus" id="inlineRadio1"  th:value="Available">
+                        <label class="form-check-label" for="inlineRadio1">Available</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" th:checked="(${bookD.get().bookStatus.equals('Up-comming')}? true:false)" type="radio" name="bookStatus" id="inlineRadio2" th:value="Up-comming">
+                        <label class="form-check-label" for="inlineRadio2">Up-comming</label>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" th:value="${bookD.get().id}" th:name="id" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+</body>
+</html>

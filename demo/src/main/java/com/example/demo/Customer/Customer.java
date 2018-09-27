@@ -5,6 +5,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Document(collection = "customer")
 public class Customer {
 
@@ -15,23 +17,22 @@ public class Customer {
     private String phone;
     private String email;
     @Indexed
-    private int numberofrent;
-    private boolean status;
+    private int bookRents;
+    private Date registedDate;
+    private boolean accountStatus;
     public Customer(){
 
     }
 
-    public Customer(String name, String address, String phone, String email, int numberofrent,boolean status) {
+
+    public Customer(String name, String address, String phone, String email, int bookRents, Date registedDate , boolean accountStatus) {
         this.name = name;
         this.address = address;
         this.phone = phone;
         this.email = email;
-        this.numberofrent = numberofrent;
-        this.status = status;
-    }
-
-    public void set_id(String id) {
-        this.id = id;
+        this.bookRents = bookRents;
+        this.registedDate = registedDate;
+        this.accountStatus = accountStatus;
     }
 
     public void setName(String name) {
@@ -50,21 +51,16 @@ public class Customer {
         this.email = email;
     }
 
-    public void setNumberofrent(int numberofrent) {
-        this.numberofrent = numberofrent;
-    }
+    public void setBookRents(int bookRents) { this.bookRents = bookRents; }
 
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
+    public void setRegistedDate(Date registedDate) { this.registedDate = registedDate; }
 
-    public int getNumberofrent() {
-        return numberofrent;
-    }
 
-    public boolean isStatus() {
-        return status;
-    }
+    public void setAccountStatus(boolean accountStatus) { this.accountStatus = accountStatus; }
+
+    public int getBookRents() { return bookRents; }
+
+    public boolean isAccountStatus() { return accountStatus; }
 
     public String getId() {
         return id;
@@ -85,4 +81,6 @@ public class Customer {
     public String getEmail() {
         return email;
     }
+
+    public Date getRegisted_date() { return registedDate; }
 }

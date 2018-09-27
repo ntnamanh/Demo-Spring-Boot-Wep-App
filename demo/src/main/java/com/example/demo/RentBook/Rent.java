@@ -1,7 +1,7 @@
 package com.example.demo.RentBook;
 
-import org.omg.PortableServer.SERVANT_RETENTION_POLICY_ID;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
@@ -10,63 +10,75 @@ import java.util.Date;
 public class Rent {
     @Id
     private String id;
-    private String customerID;
-    private String bookID;
-//    private String start_date;
-//    private String end_date;
-    private boolean _return;
-
+    private String customerId;
+    private String bookId;
+    private Date startDate;
+    private Date endDate;
+    @Indexed
+    private int paid;
+    private boolean returnStatus;
     public Rent(){
 
     }
-//    public void setStart_date(Date start_date) {
-//        this.start_date = start_date;
-//    }
-//
-//    public void setEnd_date(Date end_date) {
-//        this.end_date = end_date;
-//    }
 
-    public void set_return(boolean _return) {
-        this._return = _return;
+    public Rent(String customerId, String bookId, Date startDate, Date endDate, int paid, boolean returnStatus) {
+        this.customerId = customerId;
+        this.bookId = bookId;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.paid = paid;
+        this.returnStatus = returnStatus;
     }
 
-    public Rent(String customerID, String bookID, boolean _return) {
-        this.customerID = customerID;
-        this.bookID = bookID;
-//        this.start_date = start_date;
-//        this.end_date = end_date;
-        this._return = _return;
-    }
-
-    public void set_id(String id) {
-        this.id = id;
-    }
-    public void setCustomerID(String customerID) {
-        this.customerID = customerID;
-    }
-    public void setBookID(String bookID) {
-        this.bookID = bookID;
-    }
     public String getId() {
         return id;
     }
-    public String getCustomerID() {
-        return customerID;
-    }
-    public String getBookID() {
-        return bookID;
-    }
-    public boolean is_return() {
-        return _return;
-    }
-//    public Date getStart_date() {
-//        return start_date;
-//    }
-//
-//    public Date getEnd_date() {
-//        return end_date;
-//    }
 
+    public String getCustomerId() {
+        return customerId;
+    }
 
+    public void setCustomerId(String customerId) {
+        this.customerId = customerId;
+    }
+
+    public String getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(String bookId) {
+        this.bookId = bookId;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public int getPaid() {
+        return paid;
+    }
+
+    public void setPaid(int paid) {
+        this.paid = paid;
+    }
+
+    public boolean isReturnStatus() {
+        return returnStatus;
+    }
+
+    public void setReturnStatus(boolean returnStatus) {
+        this.returnStatus = returnStatus;
+    }
 }

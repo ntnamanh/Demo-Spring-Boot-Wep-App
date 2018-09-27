@@ -1,59 +1,46 @@
 <!doctype html>
-<html lang="en">
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+<html xmlns:th="http://www.thymeleaf.org"  lang="en">
+<head th:include="fragments/header :: head">
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item ">
-                <a class="nav-link"  th:href="@{/welcome}">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link " th:href="@{/books}">Books</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/customers}">Customers</a>
-            </li>
-            <li class="nav-item dropdown" >
-                <a class="nav-link dropdown-toggle"th:href="@{/rents}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Rents
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" th:href="@{/rents}">All Rents</a>
-                    <div class="dropdown-divider"></div>
-                    <form action="#"  th:method="get">
-                        <a class="dropdown-item" th:href="@{/rents/return/returned}">Returned</a>
-                        <a class="dropdown-item" th:href="@{/rents/return/not_returned}">Not Returned</a>
-                    </form>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link"  th:href="@{/welcome}">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " th:href="@{/books}">Books</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/customers}">Customers</a>
+                </li>
+                <li class="nav-item dropdown" >
+                    <a class="nav-link dropdown-toggle"th:href="@{/rents}" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Rents
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" th:href="@{/rents}">All Rents</a>
+                        <div class="dropdown-divider"></div>
+                        <form action="#"  th:method="get">
+                            <a class="dropdown-item" th:href="@{/rents/return/returned}">Returned</a>
+                            <a class="dropdown-item" th:href="@{/rents/return/not_returned}">Not Returned</a>
+                        </form>
 
-                </div>
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
-
-
-
+                    </div>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" th:method="get" th:action="@{/rents/search}">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search By Customer ID" name="customerId" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
 
     <div class="container"  style="padding-top: 200px">
         <table class="table table-dark">
@@ -63,24 +50,29 @@
                 <th scope="col">ID</th>
                 <th scope="col">CustomerID</th>
                 <th scope="col">BookID</th>
-                <!--<th scope="col">Start Date</th>-->
-                <!--<th scope="col">End Date</th>-->
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Pay</th>
                 <th scope="col">Status</th>
                 <th scope="col">Update</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="rent_data : ${rent_datas}">
-                <td th:utext="${rent_datas.indexOf(rent_data)+1}"></td>
-                <td th:utext="${rent_data.getId()}"></td>
-                <td th:utext="${rent_data.getBookID()}"></td>
-                <td th:utext="${rent_data.getCustomerID()}"></td>
-                <!--<td th:utext="${rent_data.start_date}"></td>-->
-                <!--<td th:utext="${rent_data.end_date}"></td>-->
-                <td th:utext="((${rent_data.is_return()})?'Returned':'Not returned')"></td>
-                <td>
-                    <button type="button" class="btn btn-outline-secondary" th:disabled="((${rent_data.is_return()})?true:false)">Return Update</button>
-                    <button type="button" class="btn btn-outline-secondary" th:disabled="((${rent_data.is_return()})?false:true)">Delete</button>
+            <tr th:each="rentData : ${rentDatas}">
+                <td th:utext="${rentDatas.indexOf(rentData)+1}"></td>
+                <td th:utext="${rentData.id}"></td>
+                <td th:utext="${rentData.customerId}"></td>
+                <td th:utext="${rentData.bookId}"></td>
+                <td th:utext="${rentData.startDate}"></td>
+                <td th:utext="${rentData.endDate}"></td>
+                <td th:utext="${rentData.paid}+'$'"></td>
+                <td th:utext="((${rentData.returnStatus})?'Returned':'Not returned')"></td>
+                <td><form th:action="@{/rents/returnBook}" th:method="post">
+                        <button type="submit" class="btn btn-outline-secondary" name="rentId" th:value="${rentData.id}" th:disabled="((${rentData.returnStatus})?true:false)">Return Update</button>
+                    </form>
+                    <form th:action="@{/rents}" th:method="delete">
+                        <button type="submit" th:value="${rentData.id}" name="rentId" class="btn btn-outline-secondary" th:disabled="((${rentData.returnStatus})?false:true)">Delete</button>
+                    </form>
                 </td>
             </tr>
             </tbody>

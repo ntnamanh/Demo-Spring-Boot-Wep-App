@@ -1,63 +1,89 @@
 package com.example.demo.Customer;
 
-import com.example.demo.RentBook.RentNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import java.util.Calendar;
 
-
-import javax.jws.WebParam;
-import java.util.List;
-
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-
-@RestController
+@Controller
 @RequestMapping(value = "/customers")
 public class CustomerController {
-    @Autowired
+
     private CustomerRepository customerRepository;
     public CustomerController(CustomerRepository customerRepository){
         this.customerRepository = customerRepository;
     }
 
     @GetMapping()
-    public ModelAndView getAllCustomer(ModelAndView model){
+    public ModelAndView getAllCustomer(ModelAndView model) {
         model.setViewName("customers");
-        model.addObject("customer_datas", this.customerRepository.findAll());
+        model.addObject("customerDatas", this.customerRepository.findAllByOrderByNameAsc());
         return model;
     }
 
-    @GetMapping(value = "/search")
-    public ModelAndView get_customer_id(@RequestParam(value = "search", required = true) String name, ModelAndView model){
+    @GetMapping("/search")
+    public ModelAndView getCustomerById(@RequestParam(value = "search", required = true) String name, ModelAndView model) {
         model.setViewName("customers");
-        if(name.isEmpty()||name.trim().equals(""))
-            model.addObject("customer_datas", this.customerRepository.findAll());
-        else
-            model.addObject("customer_datas",this.customerRepository.findAllByNameLike(name));
+        if(name.isEmpty()||name.trim().equals("")) {
+            model.addObject("customerDatas", this.customerRepository.findAll());
+        } else {
+            model.addObject("customerDatas", this.customerRepository.findAllByNameLike(name));
+        }
         return model;
     }
-    @GetMapping(value = "/return/{value}")
-    public ModelAndView get_customer_by_status(ModelAndView model,@PathVariable String value){
+    @GetMapping("/return/{value}")
+    public ModelAndView getCustomerByStatus(ModelAndView model,@PathVariable String value) {
         model.setViewName("customers");
-        if(value.equals("is_renting"))
-            model.addObject("customer_datas",this.customerRepository.findAllByNumberofrentIsGreaterThan(0));
-        else if(value.equals("not_renting"))
-            model.addObject("customer_datas",this.customerRepository.findAllByNumberofrentIs(0));
-        else
-            model.setViewName("errorhandler");
+        switch (value) {
+            case "is_renting":
+                model.addObject("customerDatas", this.customerRepository.findAllByBookRentsIsGreaterThan(0));
+                break;
+            case "not_renting":
+                model.addObject("customerDatas", this.customerRepository.findAllByBookRentsIs(0));
+                break;
+            default:
+                model.setViewName("errorhandler");
+                break;
+        }
+        return model;
+    }
+
+    @PostMapping
+    public ModelAndView addCustomer(@ModelAttribute(value = "newCustomer")  Customer customer,ModelAndView model) {
+        Calendar cal = Calendar.getInstance();
+        Customer newCustomer = new Customer(customer.getName(),customer.getAddress(),customer.getPhone(),customer.getEmail(),0,cal.getTime(),false);
+        this.customerRepository.save(newCustomer);
+        model.setViewName("customers");
+        model.addObject("customerDatas",this.customerRepository.findAllByOrderByNameAsc());
         return model;
     }
 
 
-
-    @PostMapping(value ="/{customer}")
-    public void add_new_customer(@RequestBody Customer newcustomer){
-        customerRepository.save(newcustomer);
+    @PutMapping
+    public ModelAndView editCustomer(@ModelAttribute(value = "editCustomer") Customer editCustomer,@RequestParam(value = "id") String id,ModelAndView model) {
+        this.customerRepository.findById(id).ifPresent(customer->{
+            customer.setName(editCustomer.getName());
+            customer.setAddress(editCustomer.getAddress());
+            customer.setEmail(editCustomer.getEmail());
+            customer.setPhone(editCustomer.getPhone());
+            customer.setAccountStatus(editCustomer.isAccountStatus());
+           this.customerRepository.save(customer);
+        });
+        model.setViewName("customers");
+        model.addObject("customerDatas",this.customerRepository.findAllByOrderByNameAsc());
+        return model;
     }
-    @DeleteMapping("/{id}")
-    public void delete_customer(@PathVariable String id){
+
+    @DeleteMapping
+    public void deleteCustomer(@PathVariable String id) {
         customerRepository.deleteById(id);
+    }
+
+    @GetMapping("/getCustomer")
+    public ModelAndView getCustomerbyId (@RequestParam(value = "customerId") String id,ModelAndView model) {
+        model.setViewName("editcustomer");
+        model.addObject("customerData",this.customerRepository.findById(id));
+        return model;
     }
 
 }

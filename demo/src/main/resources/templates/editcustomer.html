@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragments/header :: head">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                    <a class="nav-link"  th:href="@{/welcome}">Home </a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link"  th:href="@{/books}">Books </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/customers}">Customers<span class="sr-only">Current</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/rents}">Rents</a>
+                </li>
+
+            </ul>
+
+            <form class="form-inline my-2 my-lg-0" action="#" th:action="@{/books/search}" th:method="get">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search By Name" name="search" aria-label="Search" th:value="${search}">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
+
+<!-- Model Edit -->
+
+
+    <form th:action="@{/customers}" th:object="${editCustomer}" name="editCustomer"  th:method="put"  >
+        <div class="modal-body"  th:object="${customerData.get()}">
+            <div class="form-group">
+                <label  class="col-form-label">Id:</label>
+                <input type="text" class="form-control" disabled   th:value="${customerData.get().id}"  >
+            </div>
+            <div class="form-group">
+                <label  class="col-form-label">Name:</label>
+                <input type="text" class="  form-control"  name="name" th:value="${customerData.get().name}"  >
+            </div>
+            <div class="form-group">
+                <label  class="col-form-label">Address</label>
+                <input type="text" class="form-control" name="address" th:value="${customerData.get().address}"  >
+            </div>
+            <div class="form-group">
+                <label  class="col-form-label">Email:</label>
+                <input type="text" class="form-control"  name="email" th:value="${customerData.get().email}"  >
+            </div>
+            <div class="form-group">
+                <label  class="col-form-label">Phone:</label>
+                <input type="text" class="form-control"  name="phone" th:value="${customerData.get().phone}"  >
+            </div>
+            <div class="form-group">
+                <label  class="col-form-label">Status:</label>
+                <div class="form-check form-check-inline">
+                        <input class="form-check-input" th:checked="((${customerData.get().accountStatus})? false:true)" type="radio" name="accountStatus" id="inlineRadio1"  th:value="false">
+                    <label class="form-check-label" for="inlineRadio1">Unbanned</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" th:checked="((${customerData.get().accountStatus})? true:false)" type="radio" name="accountStatus" id="inlineRadio2" th:value="true">
+                    <label class="form-check-label" for="inlineRadio2">banned</label>
+                </div>
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button type="submit" th:value="${customerData.get().id}" th:name="id" class="btn btn-primary">Save</button>
+        </div>
+    </form>
+
+</body>
+</html>
